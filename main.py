@@ -1,31 +1,17 @@
 import datetime
 import mail
 import reportSet
+import config
 
 from dateutil.relativedelta import relativedelta
 
-
-
 today = datetime.datetime.now()
 nextMonth = today + relativedelta(months=1)
-
-contractorFile = "/home/dan/PycharmProjects/ContractorTrack/contractors.txt"
 expired = {}
 expireNext = {}
 
-## Necessary info for report to be emailed via SMTP
-subj = "Subject of Email"
-from_ = "From Email Address"
-to_ = "To Email Address"
-smtpServ = "Your SMTP Server"
-## ## If your SMTP Server uses SSL, set sslTest to True and add login, pass
-sslTest = False
-#login_ = ""
-#pass_ = ""
-
-
 def track():
-    _file = open(contractorFile)
+    _file = open(config.contractorFile)
     content = _file.readlines()
 
     ## Runs through each contractor in text file, separates name and date for comparison, sends email with summary
@@ -47,4 +33,6 @@ def track():
     report += reportSet.setupReport(expireNext)
 
     ## Sends email
-    mail.emailReport(subj, report, from_, to_, smtpServ, sslTest, login_='', pass_='')
+    mail.emailReport(config.subj, report, config.from_, config.to_, config.smtpServ, config.sslTest, config.login_, config.pass_)
+
+track()
